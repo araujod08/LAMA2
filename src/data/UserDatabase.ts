@@ -13,7 +13,7 @@ export class UserDatabase extends BaseDatabase {
     role: string
   ): Promise<void> {
     try {
-      await this.getConnection()
+      await BaseDatabase.connection
         .insert({
           id,
           email,
@@ -28,7 +28,7 @@ export class UserDatabase extends BaseDatabase {
   }
 
   public async getUserByEmail(email: string): Promise<User> {
-    const result = await this.getConnection()
+    const result = await BaseDatabase.connection
       .select("*")
       .from(UserDatabase.TABLE_NAME)
       .where({ email });

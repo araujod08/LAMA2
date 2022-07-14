@@ -18,7 +18,7 @@ export class UserBusiness {
         await userDatabase.createUser(id, user.email, user.name, hashPassword, user.role);
 
         const authenticator = new Authenticator();
-        const accessToken = authenticator.generateToken({ id, role: user.role });
+        const accessToken = authenticator.generateToken({ id, role: user.role});
 
         return accessToken;
     }

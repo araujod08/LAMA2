@@ -1,28 +1,64 @@
+import { compare } from "bcryptjs";
 import { BandDatabase } from "../data/BandDatabase";
-import { Band } from "../model/Band";
+import { Band, BandInput, GetBandByIdInput } from "../model/Band";
+import { UserRole } from "../model/User";
 import { Authenticator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
 
 
 export class BandBusiness {
-    constructor(
-        private idGenerator: IdGenerator,
-        private authenticator: Authenticator,
-        private bandDatabase: BandDatabase
-    ) { }
 
-    async createBand(name: string, music_genre: string, responsible: string, token: string) {
+    async createBand(input: BandInput) {
 
-        const id = this.idGenerator.generate()
-        const tokenData = this.authenticator.getData(token)
+        try {
+            const { token, name, music_genre, responsible } = input
 
-        if (!tokenData) {
-            throw new Error('Invalid token');
+            const trueToken = new Authenticator().getData(token)
+            if (!trueToken && trueToken !== UserRole.ADMIN) {
+                throw new Error("You need to be looged in.");
+            }
+
+
+            if (!name || !music_genre || !responsible) {
+                throw new Error("Empty fields.");
+            }
+
+            const id = new IdGenerator().generate()
+
+            const newBand: Band = new Band(id, name, music_genre, responsible)
+            await new BandDatabase().createBand(newBand);
+
+        } catch (error:any ) {
+            throw new Error(error.message);
         }
 
-        const newBand = new Band(id, name, music_genre, responsible)
-        await this.bandDatabase.createBand(newBand);
+    }
 
-        return id 
+    async getBandById (input: GetBandByIdInput) {
+        try {
+            const  {id, token} = input
+
+            const trueToken = new Authenticator().getData(token)
+            if ( !trueToken ) {
+                throw new Error("You need to be looged in.");
+            }
+            if (!id) {
+                throw new Error("Id is missing");
+            }
+
+            const searchBand = await new BandDatabase().getBandById(id)
+
+            const band = {
+                id: searchBand.id,
+                name: searchBand.name,
+                music_genre: searchBand.music_genre,
+                responsible: searchBand.responsible
+            }
+
+            return band
+
+        } catch (error:any) {
+            throw new Error(error.message);
+        }
     }
 }

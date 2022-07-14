@@ -1,4 +1,5 @@
 import * as jwt from "jsonwebtoken";
+import { UserRole } from "../model/User";
 
 export class Authenticator {
   public generateToken(input: AuthenticationData,
@@ -17,16 +18,14 @@ export class Authenticator {
   }
 
   public getData(token: string): AuthenticationData {
-    const payload = jwt.verify(token, process.env.JWT_KEY as string) as any;
-    const result = {
-      id: payload.id,
-      role: payload.role
-    };
-    return result;
+    const tokenData = jwt.verify(
+      token, process.env.JWT_KEY as string
+    )
+    return tokenData as AuthenticationData
   }
 }
 
 interface AuthenticationData {
   id: string;
-  role?: string;
+  role: UserRole;
 }
