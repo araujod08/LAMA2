@@ -1,0 +1,41 @@
+POST http://localhost:3000/user/signup
+Content-Type: application/json
+
+{
+    "email": "eduardo@gmail.com",
+    "name": "Eduardo",
+    "password": "123456",
+    "role": "ADMIN"
+}
+
+###
+
+# @name login
+
+POST http://localhost:3000/user/login 
+Content-Type: application/json
+
+{
+    "email": "eduardo@gmail.com",
+    "password": "123456"
+}
+
+###
+
+@token = {{login.response.body.token}}
+
+###
+
+POST http://localhost:3000/band/create 
+Content-Type: application/json
+
+{
+    "name": "Coldplay",
+    "music_genre": "Alternative/indie",
+    "responsible": "Chris Martin"
+}
+
+
+
+
+
