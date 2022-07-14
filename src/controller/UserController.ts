@@ -23,7 +23,7 @@ export class UserController {
             res.status(400).send({ error: error.message });
         }
 
-        await BaseDatabase.destroyConnection();
+        
     }
 
     async login(req: Request, res: Response) {
@@ -44,7 +44,7 @@ export class UserController {
             res.status(400).send({ error: error.message });
         }
 
-        await BaseDatabase.destroyConnection();
+        
     }
 
 }

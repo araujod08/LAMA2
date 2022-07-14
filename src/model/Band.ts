@@ -29,8 +29,13 @@ export class Band {
 }
 
 export interface BandInput {
+    token: string,
     name: string;
     music_genre: string;
     responsible: string;
 }
 
+export interface GetBandByIdInput {
+    id: string,
+    token: string
+}

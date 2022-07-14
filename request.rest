@@ -2,8 +2,8 @@ POST http://localhost:3000/user/signup
 Content-Type: application/json
 
 {
-    "email": "eduardo@gmail.com",
-    "name": "Eduardo",
+    "email": "ariane@gmail.com",
+    "name": "Ariane",
     "password": "123456",
     "role": "ADMIN"
 }
@@ -16,7 +16,7 @@ POST http://localhost:3000/user/login
 Content-Type: application/json
 
 {
-    "email": "eduardo@gmail.com",
+    "email": "ariane@gmail.com",
     "password": "123456"
 }
 
@@ -27,6 +27,7 @@ Content-Type: application/json
 ###
 
 POST http://localhost:3000/band/create 
+Authorization: {{token}}
 Content-Type: application/json
 
 {
@@ -35,6 +36,23 @@ Content-Type: application/json
     "responsible": "Chris Martin"
 }
 
+###
+GET http://localhost:3000/band/getBandById/7bf44746-6d61-4c7d-8971-50f9d8cfb920
+Authorization: {{token}}
+Content-Type: application/json
+
+###
+
+POST http://localhost:3000/show/create 
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "week_day": "FRIDAY",
+    "start_time": "20h" ,
+    "end_time": "23h",
+    "band_id": 
+}
 
 
 
