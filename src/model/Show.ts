@@ -1,3 +1,4 @@
+import { weekdays } from "moment"
 
 
 export default class Show {
@@ -26,6 +27,11 @@ export default class Show {
 
 }
 
+export interface getShowDayInput  {
+    week_day: string,
+    token: string
+}
+
 export interface showInput {
     band_id: string,
     week_day: SHOW_ROLE,
@@ -39,3 +45,4 @@ export enum SHOW_ROLE {
     SATUDAY = "SATURDAY",
     SUNDAY = "SUNDAY"
 }
+

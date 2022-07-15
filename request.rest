@@ -49,11 +49,14 @@ Content-Type: application/json
 
 {
     "week_day": "FRIDAY",
-    "start_time": "20h" ,
-    "end_time": "23h",
-    "band_id": 
+    "start_time": 20 ,
+    "end_time": 23,
+    "band_id": "7bf44746-6d61-4c7d-8971-50f9d8cfb920"
 }
 
+###
+GET http://localhost:3000/show/getShowByWeekDay/FRIDAY
+Authorization: {{token}}
 
 
 

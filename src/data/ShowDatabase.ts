@@ -34,4 +34,19 @@ export class ShowDatabase extends BaseDatabase {
         }
     }
 
+    public async getShowByWeekDay (week_day: string) {
+        try {
+            
+            const response = await BaseDatabase.connection
+            .select("name", "music_genre")
+            .from("lama_bands")
+            .innerJoin("lama_shows", "lama_bands.id", "lama_shows.band_id")
+            .orderBy("start_time", "asc")
+
+            return response
+        } catch (error:any) {
+            throw new Error(error.sqlMessage || error.message);
+        }
+    }
+
 }
