@@ -34,6 +34,7 @@ export class ShowBusiness {
                     throw new Error("There's already a show scheduled at this time");
                 }
             }
+            
             checkArray(show)
 
             const newShow: any = {

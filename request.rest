@@ -51,7 +51,7 @@ Content-Type: application/json
     "week_day": "FRIDAY",
     "start_time": "20h" ,
     "end_time": "23h",
-    "band_id": 
+    "band_id": "7bf44746-6d61-4c7d-8971-50f9d8cfb920"
 }
 
 
