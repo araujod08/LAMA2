@@ -8,12 +8,18 @@ import { IdGenerator } from "../services/IdGenerator";
 
 export class BandBusiness {
 
+    constructor( 
+        private authenticator: Authenticator,
+        private idGenerator: IdGenerator,
+        private bandDatabase: BandDatabase
+    ){ }
+
     async createBand(input: BandInput) {
 
         try {
             const { token, name, music_genre, responsible } = input
 
-            const trueToken = new Authenticator().getData(token)
+            const trueToken = this.authenticator.getData(token)
             if (!trueToken && trueToken !== UserRole.ADMIN) {
                 throw new Error("You need to be looged in.");
             }
@@ -23,10 +29,10 @@ export class BandBusiness {
                 throw new Error("Empty fields.");
             }
 
-            const id = new IdGenerator().generate()
+            const id = this.idGenerator.generate()
 
             const newBand: Band = new Band(id, name, music_genre, responsible)
-            await new BandDatabase().createBand(newBand);
+            await this.bandDatabase.createBand(newBand);
 
         } catch (error:any ) {
             throw new Error(error.message);
@@ -62,3 +68,9 @@ export class BandBusiness {
         }
     }
 }
+
+export default new BandBusiness(
+    new Authenticator(),
+    new IdGenerator(),
+    new BandDatabase()
+)

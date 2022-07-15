@@ -2,10 +2,10 @@ POST http://localhost:3000/user/signup
 Content-Type: application/json
 
 {
-    "email": "ariane@gmail.com",
-    "name": "Ariane",
-    "password": "123456",
-    "role": "ADMIN"
+    "email": "",
+    "name": "",
+    "password": "",
+    "role": ""
 }
 
 ###
@@ -16,8 +16,8 @@ POST http://localhost:3000/user/login
 Content-Type: application/json
 
 {
-    "email": "ariane@gmail.com",
-    "password": "123456"
+    "email": "",
+    "password": ""
 }
 
 ###
@@ -31,9 +31,9 @@ Authorization: {{token}}
 Content-Type: application/json
 
 {
-    "name": "Coldplay",
-    "music_genre": "Alternative/indie",
-    "responsible": "Chris Martin"
+    "name": "",
+    "music_genre": "",
+    "responsible": ""
 }
 
 ###
@@ -48,10 +48,10 @@ Authorization: {{token}}
 Content-Type: application/json
 
 {
-    "week_day": "FRIDAY",
-    "start_time": "20h" ,
-    "end_time": "23h",
-    "band_id": 
+    "week_day": "",
+    "start_time": ,
+    "end_time": ,
+    "band_id": ""
 }
 
 
