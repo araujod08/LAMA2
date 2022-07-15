@@ -1,9 +1,6 @@
 import { Request, Response } from "express";
-import { Authenticator } from "../services/Authenticator";
-import { BandBusiness } from "../business/BandBusiness";
+import BandBusiness from "../business/BandBusiness";
 import { BandInput, GetBandByIdInput } from "../model/Band";
-import { BandDatabase } from "../data/BandDatabase";
-import { IdGenerator } from "../services/IdGenerator";
 
 export class BandController {
 
@@ -19,11 +16,9 @@ export class BandController {
                 responsible
             }
 
-
-            await new BandBusiness().createBand(input);
+            await BandBusiness.createBand(input);
             
             res.status(200).send("Deu certo caralho");
-
         } catch (error: any) {
             res.status(400).send({ error: error.message });
         }
@@ -35,7 +30,7 @@ export class BandController {
             const id = req.params.id
             const getBand: GetBandByIdInput = {id, token}
 
-            const band = await new BandBusiness().getBandById(getBand)
+            const band = await BandBusiness.getBandById(getBand)
 
             res.status(200).send({band});
             
