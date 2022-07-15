@@ -54,6 +54,9 @@ Content-Type: application/json
     "band_id": ""
 }
 
+###
+GET http://localhost:3000/show/getShowByWeekDay/FRIDAY
+Authorization: {{token}}
 
 
 

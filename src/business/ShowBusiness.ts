@@ -1,5 +1,5 @@
 import { ShowDatabase } from "../data/ShowDatabase";
-import { showInput } from "../model/Show";
+import { getShowDayInput, showInput } from "../model/Show";
 import { Authenticator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
 
@@ -34,6 +34,7 @@ export class ShowBusiness {
                     throw new Error("There's already a show scheduled at this time");
                 }
             }
+            
             checkArray(show)
 
             const newShow: any = {
@@ -45,6 +46,25 @@ export class ShowBusiness {
             }
 
             await new ShowDatabase().createShow(newShow)
+
+        } catch (error:any) {
+            throw new Error(error.message);
+        }
+    }
+
+    public async getShowByWeekDay(input: getShowDayInput) {
+        try {
+            const {week_day, token} = input
+
+            const trueToken = new Authenticator().getData(token)
+
+            if(!trueToken) {
+                throw new Error("You must be logged in.");
+            }
+
+            const show = await new ShowDatabase().getShowByWeekDay(week_day)
+
+            return show
 
         } catch (error:any) {
             throw new Error(error.message);
