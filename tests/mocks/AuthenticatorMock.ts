@@ -1,6 +1,6 @@
 import { Band } from "../../src/model/Band";
 import { UserRole } from "../../src/model/User";
-import { BandMockCorrect } from "../BandMock";
+import { BandMockCorrect } from "./BandMock";
 
 interface AuthenticationData {
     id: string;

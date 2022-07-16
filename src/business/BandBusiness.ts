@@ -1,5 +1,6 @@
 import { compare } from "bcryptjs";
 import { BandDatabase } from "../data/BandDatabase";
+import { CustomError } from "../error/BaseError";
 import { Band, BandInput, GetBandByIdInput } from "../model/Band";
 import { UserRole } from "../model/User";
 import { Authenticator } from "../services/Authenticator";
@@ -21,12 +22,17 @@ export class BandBusiness {
 
             const trueToken = this.authenticator.getData(token)
             if (!trueToken && trueToken !== UserRole.ADMIN) {
-                throw new Error("You need to be looged in.");
+                throw new CustomError(403, "Unauthorized.")
             }
 
-
-            if (!name || !music_genre || !responsible) {
-                throw new Error("Empty fields.");
+            if(!name) {
+                throw new CustomError(422, "Please fill the blanks.")
+            }
+            if(!music_genre) {
+                throw new CustomError(422, "Please fill the blanks.")
+            }
+            if(!responsible) {
+                throw new CustomError(422, "Please fill the blanks.")
             }
 
             const id = this.idGenerator.generate()
@@ -35,9 +41,9 @@ export class BandBusiness {
             await this.bandDatabase.createBand(newBand);
 
         } catch (error:any ) {
-            throw new Error(error.message);
-        }
+            throw new CustomError(error.statusCode, error.message)
 
+        }
     }
 
     async getBandById (input: GetBandByIdInput) {
@@ -46,10 +52,10 @@ export class BandBusiness {
 
             const trueToken = new Authenticator().getData(token)
             if ( !trueToken ) {
-                throw new Error("You need to be looged in.");
+                throw new CustomError(403, "Unauthorized.")
             }
             if (!id) {
-                throw new Error("Id is missing");
+                throw new CustomError(422, "Missing id.")
             }
 
             const searchBand = await new BandDatabase().getBandById(id)
@@ -64,7 +70,7 @@ export class BandBusiness {
             return band
 
         } catch (error:any) {
-            throw new Error(error.message);
+            throw new CustomError(error.statusCode, error.message)
         }
     }
 }

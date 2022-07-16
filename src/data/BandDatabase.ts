@@ -1,3 +1,4 @@
+import { CustomError } from "../error/BaseError";
 import { Band } from "../model/Band";
 import { BaseDatabase } from "./BaseDatabase";
 
@@ -15,7 +16,7 @@ export class BandDatabase extends BaseDatabase {
                 .insert( band )
                 .into(BandDatabase.TABLE_NAME);
         } catch (error: any) {
-            throw new Error(error.sqlMessage || error.message);
+            throw new CustomError(400, error.sqlMessage)
         }
     }
 
@@ -27,7 +28,7 @@ export class BandDatabase extends BaseDatabase {
             .where({id})     
             return result[0]
         } catch (error:any) {
-            throw new Error(error.sqlMessage || error.message);
+            throw new CustomError(400, error.sqlMessage)
         }
     }
 

@@ -1,4 +1,4 @@
-import { Band } from "../src/model/Band";
+import { Band } from "../../src/model/Band";
 
 export const BandMockCorrect = new Band(
     "idband1",

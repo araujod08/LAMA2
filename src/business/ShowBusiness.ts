@@ -1,4 +1,5 @@
 import { ShowDatabase } from "../data/ShowDatabase";
+import { CustomError } from "../error/BaseError";
 import { getShowDayInput, showInput } from "../model/Show";
 import { Authenticator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
@@ -6,32 +7,38 @@ import { IdGenerator } from "../services/IdGenerator";
 
 export class ShowBusiness {
 
+    constructor(
+        private authenticator: Authenticator,
+        private idGenerator: IdGenerator,
+        private showDatabase: ShowDatabase
+    ){}
+
     public async show (input: showInput) {
 
         try {
             const { band_id, week_day, start_time, end_time, token} = input
 
             if( start_time < 8 || start_time > 23) {
-                throw new Error ("Shows cannot begin at this time.")
+                throw new CustomError(400, "A show cannot be scheduled at this time period.")
             }
 
             if (!band_id || !week_day || !start_time || !end_time ) {
-                throw new Error("Fill the fields correctly.");
+                throw new CustomError(204, "Please fill all fields.")
             }
 
-            const trueToken = new Authenticator().getData(token)
+            const trueToken = this.authenticator.getData(token)
 
             if (! trueToken ) {
-                throw new Error ("You are not logged in.")
+                throw new CustomError(403, "Unauthorized.")
             }
 
-            const id = new IdGenerator().generate()
+            const id =this.idGenerator.generate()
 
-            const show = await new ShowDatabase().scheduleCheck(week_day, start_time, end_time)
+            const show = await this.showDatabase.scheduleCheck(week_day, start_time, end_time)
 
             const checkArray = (array: any) => {
                 if (array.length !== 0) {
-                    throw new Error("There's already a show scheduled at this time");
+                    throw new CustomError(400, "There's already a show scheduled at this time");
                 }
             }
             
@@ -45,10 +52,10 @@ export class ShowBusiness {
                 band_id
             }
 
-            await new ShowDatabase().createShow(newShow)
+            await this.showDatabase.createShow(newShow)
 
         } catch (error:any) {
-            throw new Error(error.message);
+            throw new CustomError(error.statusCode, error.message)
         }
     }
 
@@ -56,18 +63,24 @@ export class ShowBusiness {
         try {
             const {week_day, token} = input
 
-            const trueToken = new Authenticator().getData(token)
+            const trueToken = this.authenticator.getData(token)
 
             if(!trueToken) {
-                throw new Error("You must be logged in.");
+                throw new CustomError(403, "Unauthorized.")
             }
 
-            const show = await new ShowDatabase().getShowByWeekDay(week_day)
+            const show = await this.showDatabase.getShowByWeekDay(week_day)
 
             return show
 
         } catch (error:any) {
-            throw new Error(error.message);
+            throw new CustomError(error.statusCode, error.message)
         }
     }
 }
+
+export default new ShowBusiness(
+    new Authenticator(),
+    new IdGenerator(),
+    new ShowDatabase()
+)

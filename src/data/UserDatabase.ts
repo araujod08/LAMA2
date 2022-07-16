@@ -1,5 +1,6 @@
 import { BaseDatabase } from "./BaseDatabase";
 import { User } from "../model/User";
+import { CustomError } from "../error/BaseError";
 
 export class UserDatabase extends BaseDatabase {
 
@@ -23,17 +24,22 @@ export class UserDatabase extends BaseDatabase {
         })
         .into(UserDatabase.TABLE_NAME);
     } catch (error: any) {
-      throw new Error(error.sqlMessage || error.message);
+      throw new CustomError(400, error.sqlMessage)
     }
   }
 
   public async getUserByEmail(email: string): Promise<User> {
-    const result = await BaseDatabase.connection
-      .select("*")
-      .from(UserDatabase.TABLE_NAME)
-      .where({ email });
-
-    return User.toUserModel(result[0]);
+    try {
+      const result = await BaseDatabase.connection
+        .select("*")
+        .from(UserDatabase.TABLE_NAME)
+        .where({ email });
+  
+      return User.toUserModel(result[0]);
+      
+    } catch (error:any) {
+      throw new CustomError(400, error.sqlMessage)
+    }
   }
 
 }

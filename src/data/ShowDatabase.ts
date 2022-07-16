@@ -1,3 +1,4 @@
+import { CustomError } from "../error/BaseError";
 import Show, { SHOW_ROLE } from "../model/Show";
 import { BaseDatabase } from "./BaseDatabase";
 
@@ -14,7 +15,7 @@ export class ShowDatabase extends BaseDatabase {
             .into(ShowDatabase.TABLE_NAME)
 
         } catch (error:any) {
-            throw new Error(error.sqlMessage || error.message);
+            throw new CustomError(400, error.sqlMessage)
             
         }
     }
@@ -30,7 +31,7 @@ export class ShowDatabase extends BaseDatabase {
             return response
 
         } catch (error:any) {
-            throw new Error(error.sqlMessage || error.message);
+            throw new CustomError(400, error.sqlMessage)
         }
     }
 
@@ -45,7 +46,7 @@ export class ShowDatabase extends BaseDatabase {
 
             return response
         } catch (error:any) {
-            throw new Error(error.sqlMessage || error.message);
+            throw new CustomError(400, error.sqlMessage)
         }
     }
 
