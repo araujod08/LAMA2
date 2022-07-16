@@ -1,5 +1,5 @@
 import { Band } from "../../src/model/Band";
-import { BandMockCorrect } from "../BandMock";
+import { BandMockCorrect } from "./BandMock";
 
 export class BandDatabaseMock {
     public async createBand(
