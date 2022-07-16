@@ -27,6 +27,7 @@ export default class Show {
 
 }
 
+
 export interface getShowDayInput  {
     week_day: string,
     token: string
@@ -46,3 +47,7 @@ export enum SHOW_ROLE {
     SUNDAY = "SUNDAY"
 }
 
+export interface ShowDatabaseReturn {
+    name: string,
+    music_genre: string
+}

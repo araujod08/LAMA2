@@ -1,5 +1,5 @@
 import { CustomError } from "../error/BaseError";
-import Show, { SHOW_ROLE } from "../model/Show";
+import Show, { ShowDatabaseReturn, SHOW_ROLE } from "../model/Show";
 import { BaseDatabase } from "./BaseDatabase";
 
 
@@ -7,7 +7,7 @@ export class ShowDatabase extends BaseDatabase {
 
     private static TABLE_NAME = "lama_shows"
 
-    public async createShow (show: Show) {
+    public async createShow (show: Show): Promise<void> {
         try {
             
             await BaseDatabase.connection
@@ -20,7 +20,7 @@ export class ShowDatabase extends BaseDatabase {
         }
     }
 
-    public async scheduleCheck ( week_day: SHOW_ROLE, start_time:number, end_time:number) {
+    public async scheduleCheck ( week_day: SHOW_ROLE, start_time:number, end_time:number): Promise<Show[] | []> {
         try {
             const response = await BaseDatabase.connection
             .select("*")
@@ -42,6 +42,7 @@ export class ShowDatabase extends BaseDatabase {
             .select("name", "music_genre")
             .from("lama_bands")
             .innerJoin("lama_shows", "lama_bands.id", "lama_shows.band_id")
+            .where({week_day})
             .orderBy("start_time", "asc")
 
             return response

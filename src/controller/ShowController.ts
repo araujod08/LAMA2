@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ShowBusiness } from "../business/ShowBusiness";
+import  ShowBusiness  from "../business/ShowBusiness";
 import { getShowDayInput, showInput } from "../model/Show";
 
 
@@ -18,7 +18,7 @@ export class ShowController {
                 token
             }
 
-            await new ShowBusiness().show(schedule)
+            await ShowBusiness.show(schedule)
 
             res.status(200).send("Show successfully scheduled.")
         } catch (error:any) {
@@ -40,7 +40,7 @@ export class ShowController {
                 token
             }
 
-            const response = await new ShowBusiness().getShowByWeekDay(input)
+            const response = await ShowBusiness.getShowByWeekDay(input)
 
             res.status(200).send(response)
 
