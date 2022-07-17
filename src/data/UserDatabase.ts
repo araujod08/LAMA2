@@ -34,12 +34,35 @@ export class UserDatabase extends BaseDatabase {
         .select("*")
         .from(UserDatabase.TABLE_NAME)
         .where({ email });
-  
+
       return User.toUserModel(result[0]);
-      
-    } catch (error:any) {
+
+    } catch (error: any) {
       throw new CustomError(400, error.sqlMessage)
     }
   }
+  public async getUserById(id: string): Promise<User | undefined> {
+    try {
+      const result = await BaseDatabase.connection
+        .select("*")
+        .from(UserDatabase.TABLE_NAME)
+        .where(`${id}`);
+      return User.toUserModel(result[0]);
+    } catch (error: any) {
+      throw new Error(error.sqlMessage || error.message)
+    }
+  }
 
+  public async getAllUsers(): Promise<User[]> {
+    try {
+      const result = await BaseDatabase.connection
+        .select("*")
+        .from(UserDatabase.TABLE_NAME);
+      return result[0].map((res: any) => {
+        return User.toUserModel(res);
+      });
+    } catch (error: any) {
+      throw new Error(error.sqlMessage || error.message)
+    }
+  }
 }
