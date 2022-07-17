@@ -5,8 +5,12 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev ./src/index.ts",
-    "start": "tsc && node --inspect ./build/src/index.js",
-    "test": "clear && echo \"Running tests...\" && jest"
+    "start": "node ./build/src/index.js",
+    "test": "clear && echo \"Running tests...\" && jest",
+    "postinstall": "tsc"
+  },
+  "engines": {
+    "node": "v16.13.2"
   },
   "keywords": [
     "api",
