@@ -20,7 +20,7 @@
 
 <h2 id="link">🔗 Link</h2>
 
-<a href="https://www.google.com">LAMA</a>
+<a href="https://documenter.getpostman.com/view/20351643/UzQvtk4N">LAMA</a>
 
 <h2 id="features">✔️ Features</h2>
 
