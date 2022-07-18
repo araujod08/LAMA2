@@ -3,14 +3,14 @@ import { BandDatabase } from "../data/BandDatabase";
 import { CustomError } from "../error/BaseError";
 import { Band, BandInput, GetBandByIdInput } from "../model/Band";
 import { UserRole } from "../model/User";
-import { Authenticator } from "../services/Authenticator";
+import { TokenGenerator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
 
 
 export class BandBusiness {
 
     constructor( 
-        private authenticator: Authenticator,
+        private authenticator: TokenGenerator,
         private idGenerator: IdGenerator,
         private bandDatabase: BandDatabase
     ){ }
@@ -50,7 +50,7 @@ export class BandBusiness {
         try {
             const  {id, token} = input
 
-            const trueToken = new Authenticator().getData(token)
+            const trueToken = new TokenGenerator().getData(token)
             if ( !trueToken ) {
                 throw new CustomError(403, "Unauthorized.")
             }
@@ -76,7 +76,7 @@ export class BandBusiness {
 }
 
 export default new BandBusiness(
-    new Authenticator(),
+    new TokenGenerator(),
     new IdGenerator(),
     new BandDatabase()
 )
