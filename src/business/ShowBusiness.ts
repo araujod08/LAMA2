@@ -1,14 +1,14 @@
 import { ShowDatabase } from "../data/ShowDatabase";
 import { CustomError } from "../error/BaseError";
 import { getShowDayInput, showInput } from "../model/Show";
-import { Authenticator } from "../services/Authenticator";
+import { TokenGenerator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
 
 
 export class ShowBusiness {
 
     constructor(
-        private authenticator: Authenticator,
+        private authenticator: TokenGenerator,
         private idGenerator: IdGenerator,
         private showDatabase: ShowDatabase
     ){}
@@ -80,7 +80,7 @@ export class ShowBusiness {
 }
 
 export default new ShowBusiness(
-    new Authenticator(),
+    new TokenGenerator(),
     new IdGenerator(),
     new ShowDatabase()
 )
